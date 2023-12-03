@@ -125,30 +125,29 @@ for line in data:
     for number in list_of_dictonaries_numbers[index]:
         # check if symbols are in previous line
         for symbol in list_of_dictonaries_symbols[index-1]:
-            if symbol in list_of_dictonaries_numbers[index][number]:
-                continue
+
             for position in list_of_dictonaries_numbers[index][number]:
                 if position-1 in list_of_dictonaries_symbols[index-1][symbol] or position+1 in list_of_dictonaries_symbols[index-1][symbol]:
                     print(f"number {number} is on line {index} and has off-line neighbour {symbol}")
+
                     of_line_parts.append(number)
                     break
                 elif index+1 == len(list_of_dictonaries_symbols):
                         if position-1 in list_of_dictonaries_symbols[index][symbol] or position+1 in list_of_dictonaries_symbols[index][symbol]:
                             print(f"number {number} is on line {index} and has off-line neighbour {symbol}")
+
                             of_line_parts.append(number)
                             break
+
                 elif position-1 in list_of_dictonaries_symbols[index+1][symbol] or position+1 in list_of_dictonaries_symbols[index+1][symbol]:
                     print(f"number {number} is on line {index} and has off-line neighbour {symbol}")
+
                     of_line_parts.append(number)
                     break
                 else:
                     continue
 
+sum_of_parts = sum(on_line_parts) + sum(of_line_parts)
+print("sum of parts is", sum_of_parts)
 
-
-#
-# print(of_line_parts)
-# print(on_line_parts)
-#
-all_parts = sum(of_line_parts)+ sum(on_line_parts)
-print(all_parts)
+# solution is 505537
