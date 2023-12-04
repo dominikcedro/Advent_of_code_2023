@@ -1,4 +1,4 @@
-with open('day3_data.txt') as f:
+with open('smal_data3.txt') as f:
     data = f.read().splitlines()
 
 symbols = {'!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', '-', '=', '{', '}', '[', ']', '|', '\\', ':',
@@ -17,7 +17,7 @@ for line in data:
             dict_symbols[char].append(coordinates)
             dict_symbols[char] = sorted(dict_symbols[char])  # is it really necessary
     count = 0
-print(dict_symbols)
+# print(dict_symbols)
 
 # this part read coordinates of numbers in line
 count_num = 0
@@ -44,9 +44,12 @@ for line in data:
 
 gear_numbers = []
 count_num = 0
-for key in dict_numbers:
-    print(key, dict_numbers[key])
+# for key in dict_numbers:
+#     print(key, dict_numbers[key])
 print("here starts solving")
+
+
+# sum_of_gears = 0
 # for nr in range(len(data)):
 #     if nr == 0:
 #         continue
@@ -58,11 +61,58 @@ print("here starts solving")
 #                         gear_numbers.append(number)
 #                         if len(gear_numbers) == 2:
 #                             print(gear_numbers)
-#                             print(gear_numbers[0]*gear_numbers[1])
+#                             sum_of_gears += (gear_numbers[0]*gear_numbers[1])
+#                             gear_numbers = []
 #                             break
 #                 else:
 #                     continue
 #         else:
 #             continue
-
-
+sum_of_gears = 0
+for nr in range(len(data)-1):
+    print(f"scanning line {nr}")
+    if nr == 0:
+        continue
+    for symbol in dict_symbols['*']:
+        if symbol[0] == nr:
+            for number in dict_numbers:
+                if dict_numbers[number][0] == symbol[0]:
+                    if symbol[1] in dict_numbers[number] or symbol[1]+1 in dict_numbers[number] or symbol[1]-1 in dict_numbers[number]:
+                        #check if gear_numbers is empty
+                        if not len(gear_numbers) == 0:
+                            print(gear_numbers)
+                            for coordinates in dict_numbers[number]:
+                                if coordinates in dict_numbers[gear_numbers[0]]:
+                                    continue
+                                print(coordinates)
+                                print (dict_numbers[gear_numbers[0]])
+                                if coordinates in dict_numbers[gear_numbers[0]]:
+                                    gear_numbers.append(number)
+                                    if len(gear_numbers) == 2:
+                                        print(gear_numbers)
+                                        sum_of_gears += (gear_numbers[0]*gear_numbers[1])
+                                        gear_numbers = []
+                                        break
+                                else:
+                                    gear_numbers = []
+                                    break
+                        else:
+                            gear_numbers.append(number)
+                            if len(gear_numbers) == 2:
+                                print(gear_numbers)
+                                sum_of_gears += (gear_numbers[0]*gear_numbers[1])
+                                gear_numbers = []
+                                break
+                if dict_numbers[number][0]+1 == symbol[0] or dict_numbers[number][0]-1 == symbol[0]:
+                    if (symbol[1] in dict_numbers[number] or symbol[1]+1 in dict_numbers[number] or symbol[1]-1 in dict_numbers[number]):
+                        gear_numbers.append(number)
+                    if len(gear_numbers) == 2:
+                        print(gear_numbers)
+                        sum_of_gears += (gear_numbers[0]*gear_numbers[1])
+                        gear_numbers = []
+                        break
+                else:
+                    continue
+        else:
+            continue
+print(sum_of_gears)

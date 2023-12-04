@@ -1,5 +1,4 @@
 import math
-
 import day_4
 
 def calculate_points_mod(dictonary_games):
@@ -25,38 +24,20 @@ def calculate_points_mod(dictonary_games):
 
     return dictonary_new
 
-def main():
-    data = day_4.read_data("day4_data.txt")
-    dictonary_games = day_4.clean_dictonary(data)
-    dictonary_new = calculate_points_mod(dictonary_games)
-    return dictonary_games, dictonary_new
-
-dictonary_games, dictonary_new = main()
-# print(len(dictonary_new))
-# dictonary_games(key) : [card_nr, user_nums, lottery_nums]
-# dictonary_new(key) : [card_nr, user_nums, lottery_nums, matching_numbers]
-# for card in dictonary_games:
-#     print(f"{card} : {dictonary_games[card]}")
-# for game in dictonary_new:
-#     print(f"{game} : {(dictonary_new[game])}")
-list_originals = []
-list_copies = []
-for key in dictonary_games:
-    list_originals.append(key)
-# print(list_originals)
-
-
-
-for number in list_originals:
-    for key in dictonary_new:
+def create_list_copies_originals(dictonary_games, dictonary_new):
+    list_originals = []
+    list_copies = []
+    for key in dictonary_games:
+        list_originals.append(key)
+    for number in list_originals:
+        for key in dictonary_new:
             if number == key:
                 for i in range(1,dictonary_new[key][3]+1):
                     list_copies.append(dictonary_games[key+i][0])
-                    # print(dictonary_games[key+i])
-print(list_originals)
-print(list_copies)
 
-def even_more_copies(list_originals, list_copies):
+    return list_originals, list_copies
+
+def even_more_copies(dictonary_games, dictonary_new,list_originals, list_copies):
     new_list_copies = []
     for number in list_copies:
         for key in dictonary_new:
@@ -65,16 +46,20 @@ def even_more_copies(list_originals, list_copies):
                     new_list_copies.append(dictonary_games[key + i][0])
 
     list_originals += list_copies
-    if new_list_copies == []:
+    if not new_list_copies:
         return list_originals
     list_copies = []
     list_copies += new_list_copies
-    even_more_copies(list_originals, list_copies)
+    even_more_copies(dictonary_games, dictonary_new,list_originals, list_copies)
 
-print(even_more_copies(list_originals,list_copies))
-print(len(list_originals))
-
-
+def main():
+    data = day_4.read_data("day4_data.txt")
+    dictonary_games = day_4.clean_dictonary(data)
+    dictonary_new = calculate_points_mod(dictonary_games)
+    list_originals, list_copies = create_list_copies_originals(dictonary_games, dictonary_new)
+    even_more_copies(dictonary_games, dictonary_new, list_originals, list_copies)
+    print(len(list_originals))
+main()
 
 
 
