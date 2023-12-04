@@ -13,27 +13,27 @@ def read_data(file):
             word += char
             if word == f"Card   {data.index(line)+1}: ":
             # print(word) # card number
-                dictonary_games[f"Card {data.index(line)+1}"] = []
+                dictonary_games[data.index(line)+1] = [data.index(line)+1]
                 word = ""
             if word == f"Card  {data.index(line)+1}: ":
             # print(word) # card number
-                dictonary_games[f"Card {data.index(line)+1}"] = []
+                dictonary_games[data.index(line)+1] = [data.index(line)+1]
                 word = ""
             if word == f"Card {data.index(line)+1}: ":
             # print(word) # card number
-                dictonary_games[f"Card {data.index(line)+1}"] = []
+                dictonary_games[data.index(line)+1] = [data.index(line)+1]
                 word = ""
             if char == "|":
 
                 word = word[:-2]
                 user_nums = word.split(" ")
-                dictonary_games[f"Card {data.index(line)+1}"].append(user_nums)
+                dictonary_games[data.index(line)+1].append(user_nums)
             # print(word)
             # print(user_nums)
                 word = ""
 
         lottery_nums = word.split(" ")
-        dictonary_games[f"Card {data.index(line)+1}"].append(lottery_nums)
+        dictonary_games[data.index(line)+1].append(lottery_nums)
     return dictonary_games
 def clean_dictonary(dictonary_games):
 
@@ -43,8 +43,8 @@ def clean_dictonary(dictonary_games):
 # print(dictonary_games)
 #i have to clear dictonary of space characters
     for key in dictonary_games:
-        user_nums = dictonary_games[key][0]
-        lottery_nums = dictonary_games[key][1]
+        user_nums = dictonary_games[key][1]
+        lottery_nums = dictonary_games[key][2]
         for num in user_nums:
             if num == "":
                 user_nums.remove(num)
@@ -60,8 +60,8 @@ def calculate_points(dictonary_games):
     sum_of_points = 0
 # this code below calculates points
     for key in dictonary_games:
-        user_nums = dictonary_games[key][0]
-        lottery_nums = dictonary_games[key][1]
+        user_nums = dictonary_games[key][1]
+        lottery_nums = dictonary_games[key][2]
         points = 0
         for num in user_nums:
             if num in lottery_nums:
@@ -71,10 +71,7 @@ def calculate_points(dictonary_games):
                     points = points * 2
         # print(f"{key} got {points} points")
         sum_of_points += points
-
-    print(sum_of_points)
 def main():
     dictonary_games = read_data("day4_data.txt")
     clean_dictonary(dictonary_games)
-
 main()
