@@ -66,25 +66,32 @@ def get_seeds(data):
 
 def veri_hard_task(data, original_seeds):
     new_seeds = []
+    global_result = 0
     seed = 0
     while len(original_seeds) > 0:
         for i in original_seeds:
-            print(original_seeds)
-            # here do veri hard calculations
+
             range = [original_seeds[0], int(original_seeds[0]) + int(original_seeds[1]-1)]
-            print(f"range is {range[0]} and {range[1]}")
             start, stop = int(range[0]), int(range[1])
             seed = start
             new_seeds.append(seed)
             while seed < stop:
                 seed = seed + 1
                 new_seeds.append(seed)
-            print(new_seeds)
-            print(len(new_seeds))
-
-
+            compare_result = read_rows(data, new_seeds[0])
+            for seed in new_seeds:
+                result = read_rows(data, seed)
+                if result < compare_result:
+                    compare_result = result
+            # print(compare_result)
+            if global_result == 0:
+                global_result = compare_result
+            if compare_result < global_result:
+                global_result = compare_result
+            new_seeds = []
             del original_seeds[:2]
             continue
+    return print(global_result)
 def execute():
     data = read_data("day5_data.txt")
     original_seeds = get_seeds(data)
