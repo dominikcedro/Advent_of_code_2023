@@ -17,22 +17,26 @@ def extract_numbers_from_line(line):
 
 def read_rows(data, input):
     improvised_matrix = []
+    asigned = False
     output = 0
     for line in data:
         if data.index(line) < 2:
             continue
 
         if any(c.isalpha() for c in line):
-            # print(line)
+            print(line)
             # print(improvised_matrix)
             for k in range(0, len(improvised_matrix)):
                 output = 0
                 source_range = [improvised_matrix[k][1], (improvised_matrix[k][1]+improvised_matrix[k][2])-1]
-                # print(source_range)
-                if source_range[0] < input < source_range[1]:
-                    # print(f"seed {input} is in range")
+                print(source_range)
+                if source_range[0] <= input <= source_range[1]:
+                    print(f"seed {input} is in range")
+                    if asigned:
+                        continue
                     output = input + (improvised_matrix[k][0] - improvised_matrix[k][1])
-                    # print(f"output is  {output}")
+                    asigned = True
+                    print(f"output is asigned {output}")
                     input = output
                     if line == "finish":
                         print(f"final output is {output}")
@@ -40,7 +44,7 @@ def read_rows(data, input):
                     continue
                 else:
                     if output == 0:
-                        # print(f"seed {input} is not in range")
+                        print(f"seed {input} is not in range")
                         output = input
                         input = output
                         if line == "finish":
@@ -48,6 +52,7 @@ def read_rows(data, input):
                             break
                         continue
             improvised_matrix = []
+            asigned = False
             continue
         else:
             new_row = extract_numbers_from_line(line)
@@ -59,9 +64,10 @@ def read_rows(data, input):
 
 
 data = read_data("day5_data.txt")
-# list_seeds = [79, 14, 55, 13]
-# for seed in list_seeds:
-#     print(f"seed is {seed}")
-#     read_rows(data,seed)
+list_seeds = [3082872446,316680412 ,2769223903, 74043323, 4131958457 ,99539464 ,109726392 ,353536902 ,619902767, 648714498,
+              3762874676, 148318192, 1545670780, 343889780, 4259893555, 6139816, 3980757676, 20172062, 2199623551, 196958359]
+for seed in list_seeds:
+    print(f"seed is {seed}")
+    read_rows(data, seed)
 
-read_rows(data, 14)
+# read_rows(data, 14)
