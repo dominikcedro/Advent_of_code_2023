@@ -15,40 +15,53 @@ def extract_numbers_from_line(line):
 
     return numbers
 
-def read_rows(data):
+def read_rows(data, input):
     improvised_matrix = []
-    seed  = 79
+    output = 0
     for line in data:
         if data.index(line) < 2:
             continue
-        # check if line is empty
+
         if any(c.isalpha() for c in line):
-            print(line)
-            print(improvised_matrix)
-            for k in range(0,len(improvised_matrix)):
+            # print(line)
+            # print(improvised_matrix)
+            for k in range(0, len(improvised_matrix)):
+                output = 0
                 source_range = [improvised_matrix[k][1], (improvised_matrix[k][1]+improvised_matrix[k][2])-1]
-                print(source_range)
-                if source_range[0] < seed < source_range[1]:
-                    print(f"seed {seed} is in range")
-                    output = seed + (improvised_matrix[k][0] - improvised_matrix[k][1])
-                    print(f"output is {output}")
+                # print(source_range)
+                if source_range[0] < input < source_range[1]:
+                    # print(f"seed {input} is in range")
+                    output = input + (improvised_matrix[k][0] - improvised_matrix[k][1])
+                    # print(f"output is  {output}")
+                    input = output
+                    if line == "finish":
+                        print(f"final output is {output}")
+                        break
                     continue
                 else:
-                    print(f"seed {seed} is not in range")
-                    output = seed
-                    print(f"output is {output}")
-
-
-
+                    if output == 0:
+                        # print(f"seed {input} is not in range")
+                        output = input
+                        input = output
+                        if line == "finish":
+                            print(f"final output is {output}")
+                            break
+                        continue
             improvised_matrix = []
             continue
         else:
             new_row = extract_numbers_from_line(line)
             improvised_matrix.append(new_row)
-            print(new_row)
-    # print(improvised_matrix)
+            # print(new_row)
+
+
 
 
 
 data = read_data("day5_data.txt")
-read_rows(data)
+# list_seeds = [79, 14, 55, 13]
+# for seed in list_seeds:
+#     print(f"seed is {seed}")
+#     read_rows(data,seed)
+
+read_rows(data, 14)
