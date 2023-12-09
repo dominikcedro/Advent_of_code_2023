@@ -34,19 +34,19 @@ def get_name(data):
             continue
     return dict_inst
 
-def direction_search(directions, dict_inst, instruction, counter):
-    print(f"directions: {directions}")
-    print(f"instruction: {instruction}")
-    counter += 1
-    if instruction == "ZZZ":
-        print(f"end, counter is {counter}")
+def direction_search(const_directions, directions, dict_inst, instruction, counter):
+    if len(directions) == 0:
+        print("end")
         return counter
     while len(directions) > 0:
+        # print(len(directions))
         direction = int(directions[0])
         directions = directions[1:]
         new_inst = dict_inst[instruction][direction]
         print(new_inst)
-        direction_search(directions, dict_inst, new_inst, counter)
+        counter += 1
+        direction_search(const_directions, directions, dict_inst, new_inst, counter)
+
 
 
 
@@ -54,7 +54,8 @@ def main():
     data = read_file("day8_data")
     directions = get_instructions(data)
     dict_inst = get_name(data)
-    # print(dict_inst)
-    direction_search(directions, dict_inst, "AAA", 0)
+
+    counter = direction_search(directions, directions, dict_inst, "AAA", 0)
+    print(counter)
 
 main()
